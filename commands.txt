@@ -2,7 +2,10 @@
     docker run -p 27017:27017 -d mongo:3.6-xenial
 # Show docker container list
     docker ps
- # Domain : cloud2549465930609.com
+# Domain : cloud2549465930609.com
 
- # Run node app
+# Run node app
     npm run dev
+
+# Generate image story books
+    docker build -t storybooks-app .
