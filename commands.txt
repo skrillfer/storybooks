@@ -9,3 +9,6 @@
 
 # Generate image story books
     docker build -t storybooks-app .
+    
+# Defining and running multi-container Docker applications
+    docker-compose up
