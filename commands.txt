@@ -16,3 +16,4 @@
     export GOOGLE_APPLICATION_CREDENTIALS=$PWD/terraform-sa-key.json
 # Check Google Applications Credentials Configuration (Inside terraform folder)
     echo $GOOGLE_APPLICATION_CREDENTIALS
+# Terraform init: terraform init (inside foldet that contains main.tf file)
