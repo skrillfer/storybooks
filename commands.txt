@@ -12,3 +12,7 @@
     
 # Defining and running multi-container Docker applications
     docker-compose up
+# Setting Google Applications Credentials (Inside terraform folder)
+    export GOOGLE_APPLICATION_CREDENTIALS=$PWD/terraform-sa-key.json
+# Check Google Applications Credentials Configuration (Inside terraform folder)
+    echo $GOOGLE_APPLICATION_CREDENTIALS
