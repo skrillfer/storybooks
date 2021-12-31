@@ -17,3 +17,6 @@
 # Check Google Applications Credentials Configuration (Inside terraform folder)
     echo $GOOGLE_APPLICATION_CREDENTIALS
 # Terraform init: terraform init (inside foldet that contains main.tf file)
+
+# Run terraform plan/apply using Makefile command:
+    TF_ACTION=apply make terraform-action
