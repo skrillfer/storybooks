@@ -1,7 +1,7 @@
 provider "google" {
   credentials = file("terraform-sa-key.json")
   project = "devops-0794-personal"
-  region = "us-central-1"
+  region = "us-central1"
   zone = "us-central1-c"
 }
 
@@ -67,7 +67,7 @@ resource "google_compute_instance" "instance" {
 
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    email  = google_service_account.default.email
+    # email  = google_service_account.default.email
     scopes = ["cloud-platform"]
   }
 }
