@@ -25,3 +25,12 @@ variable "mongodbatlas_private_key" {
 variable "gcp_machine_type" {
   type = string
 }
+
+### CloudFlare
+variable "cloudflare_api_token" {
+  type = string
+}
+
+variable "domain" {
+  type = string
+}
