@@ -41,6 +41,8 @@ SSH_STRING = palas@storybooks-vm-$(ENV)
 VERSION?=latest
 LOCAL_TAG=storybooks-app:$(VERSION)
 REMOTE_TAG=gcr.io/$(PROJECT_ID)/$(LOCAL_TAG)
+CONTAINER_NAME=storybooks-api
+DB_NAME=storybooks
 ssh:
 	gcloud compute ssh $(SSH_STRING) \
 	 --project=$(PROJECT_ID) \
@@ -57,3 +59,19 @@ build:
 push:
 	docker tag $(LOCAL_TAG) $(REMOTE_TAG)
 	docker push $(REMOTE_TAG)
+
+deploy:
+	$(MAKE) ssh-cmd CMD='docker-credential-gcr configure-docker'
+	$(MAKE) ssh-cmd CMD='docker pull $(REMOTE_TAG)'
+	-$(MAKE) ssh-cmd CMD='docker container stop $(CONTAINER_NAME)'
+	-$(MAKE) ssh-cmd CMD='docker container rm $(CONTAINER_NAME)'
+	$(MAKE) ssh-cmd CMD='\
+	  docker run -d --name=$(CONTAINER_NAME) \
+	    --restart=unless-stopped \
+		-p 80:3000 \
+		-e PORT=3000 \
+		-e \"MONGO_URI=mongodb+srv://storybooks-user-$(ENV):$(call get-secret,atlas_user_password_$(ENV))@storybooks-$(ENV).0q8by.mongodb.net/$(DB_NAME)?retryWrites=true&w=majority\" \
+		-e GOOGLE_CLIENT_ID=49356808680-hhq4gck6b3j9cmp138e8gkkmpnvf33u0.apps.googleusercontent.com \
+		-e GOOGLE_CLIENT_SECRET=$(call get-secret,google_oauth_client_secret) \
+		$(REMOTE_TAG) \
+		'
