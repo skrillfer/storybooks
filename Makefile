@@ -36,10 +36,11 @@ terraform-action:
 	  -var="cloudflare_api_token=$(call get-secret,cloudflare_api_token)"
 
 ### DEPLOYMENT MANUALLY
+
 SSH_STRING = palas@storybooks-vm-$(ENV)
 
-VERSION?=latest
-LOCAL_TAG=storybooks-app:$(VERSION)
+GITHUB_SHA?=latest
+LOCAL_TAG=storybooks-app:$(GITHUB_SHA)
 REMOTE_TAG=gcr.io/$(PROJECT_ID)/$(LOCAL_TAG)
 CONTAINER_NAME=storybooks-api
 DB_NAME=storybooks
@@ -62,10 +63,13 @@ push:
 
 deploy:
 	$(MAKE) ssh-cmd CMD='docker-credential-gcr configure-docker'
+	@echo "pulling new container image..."
 	$(MAKE) ssh-cmd CMD='docker pull $(REMOTE_TAG)'
+	@echo "removing old container..."
 	-$(MAKE) ssh-cmd CMD='docker container stop $(CONTAINER_NAME)'
 	-$(MAKE) ssh-cmd CMD='docker container rm $(CONTAINER_NAME)'
-	$(MAKE) ssh-cmd CMD='\
+	@echo "starting new container..."
+	@$(MAKE) ssh-cmd CMD='\
 	  docker run -d --name=$(CONTAINER_NAME) \
 	    --restart=unless-stopped \
 		-p 80:3000 \
