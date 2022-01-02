@@ -20,3 +20,7 @@
 
 # Run terraform plan/apply using Makefile command:
     TF_ACTION=apply make terraform-action
+
+# Resolve 'You don't have the needed permissions to perform this operation, and you may have invalid credentials. To authenticate your request'
+# when pushing docker image in google cloud registry
+    gcloud auth configure-docker
