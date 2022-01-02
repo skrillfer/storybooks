@@ -4,6 +4,10 @@ terraform {
       source = "terraform-providers/mongodbatlas"
       #version = "= 0.6.0"
     }
+    cloudflare = {
+      source = "cloudflare/cloudflare"
+      version = "~> 3.0"
+    }
   }
 }
 # Configure the MongoDB Atlas Provider
